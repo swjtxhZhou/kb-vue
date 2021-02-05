@@ -1,0 +1,187 @@
+import cn from "../i18n/lang/cn"
+import Vue from "vue"
+import Router from "vue-router"
+// import CommerViews from "@/views/commerViews"
+import Login from "@/views/login/index"
+import Layout from "@/views/layout/layout"
+import HomeMain from "@/views/index/mainIndex"
+
+// 不是必须加载的组件使用懒加载
+// const Icon = () => import("@/views/icon/index")
+// const Transfer = () => import("@/views/transfer/transfer")
+// const Upload = () => import("@/views/upload/upload")
+const NotFound = () => import("@/views/page404")
+// const AddArticle = () => import("@/views/article/addArticle")
+// const AddArticleEditor = () => import("@/views/article/addArticleEditor")
+const NavClassify = () => import("@/views/syssetting/navClassify")
+const pagePermissions = () => import("@/views/permissions/pagePermissions")
+const btnPermissions = () => import("@/views/permissions/btnPermissions")
+const caseManage = () => import("@/kb/caseKnowledge/caseManage")
+const caseSearch = () => import("@/kb/caseKnowledge/caseSearch")
+const caseUpload = () => import("@/kb/caseKnowledge/caseUpload")
+const designManage = () => import("@/kb/designKnowledge/designManage")
+const designSearch = () => import("@/kb/designKnowledge/designSearch")
+const designUpload = () => import("@/kb/designKnowledge/designUpload")
+const designDataAnalysis = () => import("@/kb/designKnowledge/dataAnalysis")
+
+/**
+ * 重写路由的push方法
+ */
+const routerPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return routerPush.call(this, location).catch(error => error)
+}
+Vue.use(Router)
+let routeName = cn.routeName
+let defaultRouter = [
+  { path: "/",
+    redirect: "/index",
+    hidden: true,
+    children: []
+  },
+  {
+    path: "/login",
+    component: Login,
+    name: "",
+    // hidden: true,
+    children: []
+  },
+  {
+    path: "/index",
+    iconCls: "fa fa-dashboard", // 图标样式class
+    name: routeName.home,
+    component: Layout,
+    alone: true,
+    children: [
+      {
+        path: "/index",
+        iconCls: "fa fa-dashboard", // 图标样式class
+        name: "主页",
+        component: HomeMain,
+        children: []
+      }
+    ]
+  },
+  {
+    path: "/404",
+    component: NotFound,
+    name: "404",
+    hidden: true,
+    children: []
+  }
+]
+
+// 侧边栏显示配置以及路由
+let addRouter = [
+  {
+    path: "/",
+    iconCls: "el-icon-tickets", // 图标样式class
+    name: routeName.caseKnowledge, // 案例库
+    component: Layout,
+    children: [
+      {
+        path: "/caseKnowledge/search",
+        name: routeName.caseSearch,
+        iconCls: "el-icon-search",
+        component: caseSearch,
+        children: []
+      },
+      {
+        path: "/caseKnowledge/upload",
+        name: routeName.caseUpload,
+        iconCls: "el-icon-upload",
+        component: caseUpload,
+        children: []
+      },
+      {
+        path: "/caseKnowledge/manage",
+        name: routeName.caseManage,
+        iconCls: "el-icon-set-up",
+        component: caseManage,
+        children: []
+      }
+    ]
+  },
+  {
+    path: "/",
+    iconCls: "el-icon-reading",
+    name: routeName.designKnowledge,
+    component: Layout,
+    children: [
+      {
+        // 设计知识检索
+        path: "/designKnowledge/search",
+        iconCls: "el-icon-search",
+        name: routeName.designSearch,
+        component: designSearch,
+        children: []
+      },
+      {
+        // 设计知识上传
+        path: "/designKnowlege/upload",
+        iconCls: "el-icon-upload",
+        name: routeName.designUpload,
+        component: designUpload,
+        children: []
+      },
+      {
+        // 设计知识管理
+        path: "/designKnowledge/management",
+        iconCls: "el-icon-set-up",
+        name: routeName.designManage,
+        component: designManage,
+        children: []
+      },
+      {
+        // 设计知识辅助审核
+        path: "/designKowledge/dataAnalysis",
+        iconCls: "el-icon-user-solid",
+        name: routeName.designDataAnalysis,
+        component: designDataAnalysis,
+        children: []
+      }
+    ]
+  },
+  {
+    path: "/",
+    iconCls: "fa fa-universal-access", // 图标样式class
+    name: routeName.permissions, // 权限管理
+    component: Layout,
+    children: [
+      {
+        path: "/pagePermissions",
+        iconCls: "fa fa-expeditedssl", // 图标样式class
+        name: routeName.pageControl,
+        component: pagePermissions, // 页面权限
+        children: []
+      },
+      {
+        path: "/btnPermissions",
+        iconCls: "fa fa-toggle-on", // 图标样式class
+        name: routeName.btnControl, // 按键权限
+        component: btnPermissions,
+        children: []
+      }
+    ]
+  },
+  {
+    path: "/",
+    iconCls: "el-icon-setting", // 图标样式class
+    name: routeName.systemSettings, // 系统设置
+    component: Layout,
+    meta: {role: ["superAdmin"]},
+    children: [
+      {
+        path: "/navClassifies",
+        iconCls: "el-icon-menu", // 图标样式class
+        name: routeName.navMenu,
+        component: NavClassify,
+        children: []
+      }
+    ]
+  }
+]
+export default new Router({
+  routes: defaultRouter
+})
+export {defaultRouter, addRouter}
