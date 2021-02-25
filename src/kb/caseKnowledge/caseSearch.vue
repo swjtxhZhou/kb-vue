@@ -16,19 +16,19 @@
     <el-row>
       <div>
         <el-table
-          :data="tableData"
+          :data="caseList"
           style="width: 100%">
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
                 <el-form-item label="案例 ID:">
-                  <span>{{ props.row.caseId }}</span>
+                  <span>{{ props.row.caseNumber }}</span>
                 </el-form-item>
                 <el-form-item label="案例名称:">
                   <span>{{ props.row.caseName }}</span>
                 </el-form-item>
                 <el-form-item label="案例类型:">
-                  <span>{{ props.row.caseBelongto }}</span>
+                  <span>{{ props.row.belongtoCase }}</span>
                 </el-form-item>
                 <el-form-item label="问题描述:">
                   <span>{{ props.row.problemDescription }}</span>
@@ -53,7 +53,7 @@
           </el-table-column>
           <el-table-column
             label="案例编号"
-            prop="caseId" width="80">
+            prop="caseNumber" width="80">
           </el-table-column>
           <el-table-column
             label="案例名称 "
@@ -71,6 +71,9 @@
 
 <script>
 import axios from "axios"
+axios.defaults.timeout = 30000 // 超时时间
+// import qs from "qs"
+
 export default {
   name: "caseSearch",
   data () {
@@ -78,10 +81,11 @@ export default {
       checked: false,
       input: "",
       localData: "",
-      tableData: [{
-        caseId: "1",
+      caseList: [{
+        id: "",
+        caseNumber: "1",
         caseName: "侵限绝缘设计错误",
-        caseBelongto: "审图案例",
+        belongtoCase: "审图案例",
         problemDescription: "2015年3月份某站审图，发现D1053处绝缘节设计错误。设计图中D1053座标距信号楼766，" +
           "而1057#道岔警冲标座标为740，D1053绝缘节应为侵限绝缘。同时D1053按左侧设计，将侵入限界。显然存在设计错误。",
         problemSolution: "D1053绝缘节按侵限绝缘设计，同时D1053改右侧设置。",
@@ -92,13 +96,32 @@ export default {
   },
   methods: {
     searchCase () {
-      var keywords = this.input
-      axios.get("", keywords).then((response) => {
-        this.data = response.data
-        console.log(data)
-      }).catch((err) => {
-        console.log(err)
+      let keywords = []
+      keywords[0] = this.input
+      let info = {}
+      info["searchList"] = keywords
+      info["isExtend"] = this.checked
+      // axios.post("http://localhost:9001/case/searchCase", {searchList: ["信号机"], isExtend: false}).then((response) => {
+      //   this.caseList = response.data.caseList
+      //   console.log(this.caseList)
+      // }).catch((err) => {
+      //   console.log(err)
+      // })
+      var that = this
+      axios.post("http://localhost:9001/case/searchCase", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
       })
+        .then(function (response) {
+          that.caseList = response.data.data.caseList
+          // console.log(that.caseList)
+          alert(response.data.data.caseList)
+        })
+        .catch(function (error) {
+          alert(error)
+        })
     }
   }
 }

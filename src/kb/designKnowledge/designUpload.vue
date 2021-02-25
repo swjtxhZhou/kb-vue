@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     updateDesign () {
-      console.log("更新规范文件")
+      alert("规范上传成功")
     },
     handleRemove (file, fileList) {
       console.log(file, fileList)

@@ -10,6 +10,13 @@
       <div class="loginBox">
         <div class="loginCon">
             <p class="title">铁路信号联锁设计知识库</p>
+            <div class="login_announcement">
+              <div class="bulletin"><span class="description">公告</span></div>
+              <ol>
+                <li><p class="description">系统将为初次登录的用户自动分配用户名和用户密码，请系统用户妥善保管用户密码。</p></li>
+                <li><p class="description">本系统为测试版，仅供内部使用。</p></li>
+              </ol>
+            </div>
             <el-card shadow="always" class="login-module" v-if="smdl">
               <div slot="header" class="clearfix formTitlt">
                 <span>密码登录</span>
@@ -178,6 +185,19 @@ export default {
             margin-bottom: 20px;
           }
         }
+        .description{
+          font-size: 20px;
+          font-weight: 800;
+          color: #ffffff;
+          width: 600px;
+          float: left;
+          margin-top: 10px;
+          &:first-child{
+            font-size: 20px;
+            margin-top: 50px;
+            margin-bottom: 20px;
+          }
+        }
         .login-module {
           width: 380px;
           height: 325px;
@@ -268,5 +288,163 @@ export default {
         }
       }
     }
+  }
+  .login_title{
+    height: 20%;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .login_title img{
+    margin-top: 70px;
+    width: 60%;
+    min-width: 700px;
+    -webkit-box-reflect: below 3px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent) , to(rgba(250, 250, 250, 0.1)));
+  }
+  .login_bottom{
+    height: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login_bottom .login_bottom-inner{
+    width: 50%;
+    min-width: 600px;
+    margin: auto;
+  }
+  .login_bottom .login_bottom-inner .login_announcement{
+    width: 50%;
+    height: 70%;
+    float: left;
+    color: white;
+    font-family: "Microsoft YaHei",serif;
+    line-height: 40px;
+  }
+  .login_bottom .login_bottom-inner .login_announcement .bulletin{
+    font-size: 1.2vw;
+  }
+  .login_bottom .login_bottom-inner .login_inner{
+    background: -webkit-linear-gradient(top, #163254, #234368, #3F5F84);
+    background-size: cover;
+    height: auto;
+    width:40%;
+    float: right;
+    border-radius: 4px;
+  }
+  .login_inner .login_tip{
+    width:100%;
+    text-align: center;
+    vertical-align: middle;
+    display: table;
+    line-height: 50px;
+    border-bottom: 2px solid white;
+  }
+  .login_inner .login_tip span{
+    color: white;
+    font-size: 1.5vw;
+    font-weight: 400;
+    font-family: Arial;
+  }
+  @media only screen and (max-width: 1500px){
+    .login_inner .login_tip span{
+      font-size: 23px !important;
+    }
+    .login_bottom .login_bottom-inner .login_announcement .bulletin{
+      font-size: 20px !important;
+    }
+    li{
+      font-size: 16px !important;
+    }
+  }
+  .login_right_info{
+    float: left;
+    width: 100%;
+    color: white;
+    font-family: "Microsoft YaHei",serif;
+    font-weight: lighter;
+    /*margin-top: 40px;*/
+  }
+  .login_right_info .message{
+    width: 85%;
+    margin: auto;
+    position: relative;
+    margin-top: 30px;
+  }
+  .login_right_info .message .icon-user{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    margin: 4px;
+    border-radius: 3px;
+  }
+  .eye{
+    position: absolute;
+    top: 3px;
+    right: 0;
+    width: 25px;
+    height: 25px;
+    margin: 4px;
+    border-radius: 3px;
+  }
+  .login_right_info .user_name{
+    padding-left: 40px;
+    margin-top: 0px;
+  }
+  .login_right_info .user_password{
+    left:12px;
+    padding-left: 40px;
+  }
+  .login_right_info span{
+    width: 70px;
+    height: 57px;
+    display: inline-block;
+    text-align-last: justify;
+    margin-right: 10px;
+  }
+  .login_right_info input{
+    width: calc(100% - 50px);
+    background-color: white;
+    border: solid 1px #053a66;
+    border-radius: 5px;
+    height: 30px;
+    color: black;
+    padding: 3px 10px;
+    font-size: 15px;
+    font-family: Arial;
+    font-weight: 400;
+  }
+  .login_btn_group{
+    width: 85%;
+    height: 30px;
+    margin: 30px auto 40px auto;
+    font-weight: 600;
+    font-family: "Microsoft YaHei", serif;
+  }
+  .login_btn_login{
+    float: left;
+  }
+  .login_btn_reset{
+    float: right;
+  }
+  .btn-gradient{
+    background: white;
+    color:#233246;
+    letter-spacing: 2px;
+    font-family: "Arial";
+    font-weight: bolder;
+    font-size: 16px;
+    border: 0;
+    border-radius: 3px;
+    padding: 5px 30px;
+    cursor: pointer;
+  }
+  .btn-gradient:hover{
+    background-color: #5594d6;
+    color: white;
+  }
+  li{
+    font-size: 1vw;
+    letter-spacing: 1px;
   }
 </style>

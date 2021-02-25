@@ -78,7 +78,7 @@
             :limit="3"
             :on-exceed="handleExceed"
             :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary" >点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
           </el-upload>
 <!--          <div v-for="(item,index) in fileList" :name="item.name" :url="item.url" :index="index">-->
@@ -120,6 +120,9 @@ export default {
     }
   },
   methods: {
+    updateCase () {
+      alert("案例上传成功")
+    },
     handleRemove (file, fileList) {
       console.log(file, fileList)
     },

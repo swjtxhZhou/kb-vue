@@ -14,8 +14,6 @@ const NotFound = () => import("@/views/page404")
 // const AddArticle = () => import("@/views/article/addArticle")
 // const AddArticleEditor = () => import("@/views/article/addArticleEditor")
 const NavClassify = () => import("@/views/syssetting/navClassify")
-const pagePermissions = () => import("@/views/permissions/pagePermissions")
-const btnPermissions = () => import("@/views/permissions/btnPermissions")
 const caseManage = () => import("@/kb/caseKnowledge/caseManage")
 const caseSearch = () => import("@/kb/caseKnowledge/caseSearch")
 const caseUpload = () => import("@/kb/caseKnowledge/caseUpload")
@@ -23,6 +21,7 @@ const designManage = () => import("@/kb/designKnowledge/designManage")
 const designSearch = () => import("@/kb/designKnowledge/designSearch")
 const designUpload = () => import("@/kb/designKnowledge/designUpload")
 const designDataAnalysis = () => import("@/kb/designKnowledge/dataAnalysis")
+const userManage = () => import("@/kb/BaseTable")
 
 /**
  * 重写路由的push方法
@@ -149,17 +148,10 @@ let addRouter = [
     component: Layout,
     children: [
       {
-        path: "/pagePermissions",
-        iconCls: "fa fa-expeditedssl", // 图标样式class
-        name: routeName.pageControl,
-        component: pagePermissions, // 页面权限
-        children: []
-      },
-      {
-        path: "/btnPermissions",
-        iconCls: "fa fa-toggle-on", // 图标样式class
-        name: routeName.btnControl, // 按键权限
-        component: btnPermissions,
+        path: "/userManage",
+        iconCls: "el-icon-user-solid",
+        name: routeName.userManage,
+        component: userManage,
         children: []
       }
     ]

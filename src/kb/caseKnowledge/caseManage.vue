@@ -12,6 +12,9 @@
         <el-col :span="3">
           <el-button size="medium" type="success" @click="updateCase">更新案例</el-button>
         </el-col>
+        <el-col :span="3">
+          <el-button size="medium" type="warning" @click="deleteCase">删除案例</el-button>
+        </el-col>
       </el-row>
       <el-row class="caseIdCss">
         <el-col :span="6" :offset="3">
@@ -76,7 +79,10 @@
       <el-row >
         <p class="caseCss">附件：</p>
         <el-image
-          :src="caseInfo.attachment"
+          :src="caseInfo.attachment1"
+          :fit="contain"></el-image>
+        <el-image
+          :src="caseInfo.attachment2"
           :fit="contain"></el-image>
       </el-row>
     </div>
@@ -87,24 +93,38 @@ export default {
   name: "caseManage",
   data () {
     return {
-      caseInfo: {
+      searchInfo: {
         caseId: "1",
         caseName: "侵限绝缘设计错误",
         caseBelongto: "审图案例",
-        problemDescription: "2015年3月份某站审图，发现D1053处绝缘节设计错误。设计图中D1053座标距信号楼766，" +
-          "而1057#道岔警冲标座标为740，D1053绝缘节应为侵限绝缘。同时D1053按左侧设计，将侵入限界。显然存在设计错误。",
+        problemDescription: "2015年3月份某站审图，发现D1053处绝缘节设计错误。设计图中D1053座标距信号楼766，而1057#道岔警冲标座标为740，D1053绝缘节应为侵限绝缘。同时D1053按左侧设计，将侵入限界。显然存在设计错误。",
         problemSolution: "D1053绝缘节按侵限绝缘设计，同时D1053改右侧设置。",
         riskWarning: "审图工作需要对照设计规范，掌握标准。不能停留在表面，要深入计算设计中参数是否正确，要逐项参数进行比对和确认。警冲标座标容易出错，要学会计算。",
-        attachment: "./static/案例图片/1_1.jpg"
+        attachment1: "./static/案例图片/1_1.jpg",
+        attachment2: "./static/案例图片/1_2.jpg"
+      },
+      caseInfo: {
+        caseId: "",
+        caseName: "",
+        caseBelongto: "",
+        problemDescription: "",
+        problemSolution: "",
+        riskWarning: "",
+        attachment1: "",
+        attachment2: ""
       }
     }
   },
   methods: {
-    searchDesignId () {
-      consle.log("查询设计知识")
+    searchCaseId () {
+      this.caseInfo = this.searchInfo
+      alert("查询成功")
     },
-    updateDesign () {
-      console.log("更新设计知识")
+    updateCase () {
+      alert("更新成功")
+    },
+    deleteCase () {
+      alert("删除成功")
     }
   }
 }

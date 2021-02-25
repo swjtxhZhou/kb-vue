@@ -7,6 +7,7 @@
 import zhLocale from "element-ui/lib/locale/lang/zh-CN"
 const cn = {
   routeName: {
+    userManage: "用户管理",
     caseKnowledge: "案例库",
     caseSearch: "案例检索",
     caseManage: "案例管理",

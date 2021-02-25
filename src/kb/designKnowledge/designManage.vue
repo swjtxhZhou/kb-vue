@@ -66,11 +66,21 @@ export default {
   name: "designManage",
   data () {
     return {
+      searchInfo: {
+        designId: "3.3.1",
+        designBelongto1: "地面固定信号 ",
+        designBelongto2: "显示要求",
+        content: "信号机以及表示器的显示距离应符合下列规定： 1 正常情况 1) 高柱进站信号机、高柱通过信号机、高柱接近信号机、遮断信号机的显示距离不得小于 1 000 m；\n" +
+          " 2) 高柱进路信号机、高柱出站信号机的显示距离不得小于 800 m； 3) 预告信号机、矮型接近信号机的显示距离不得小于 400 m； 4) 矮型进站信号机、矮型进路信号机、矮型出站信号机、矮型通过信号机、调车信号机、复示信 号机，容许信号、引导信号的显示距离不得小于 200 m； 5) 各种表示器的显示距离不得小于 200 m。 2 受地形、地物等因素影响时，进站信号机、通过信号机、接近信号机、预告信号机、遮断信号机\n" +
+          " - 8 \n" +
+          "的显示距离不得小于 200 m。 ",
+        attachment: ""
+      },
       designInfo: {
-        designId: "2.1.1",
-        designBelongto1: "术语和符号",
-        designBelongto2: "术语",
-        content: "直向进路  route through turnout by straight track 无道岔或虽有道岔但均开通直向位置的列车进路或闭塞分区。",
+        designId: "",
+        designBelongto1: "",
+        designBelongto2: "",
+        content: "",
         attachment: ""
       },
       inputDesignId: ""
@@ -78,10 +88,11 @@ export default {
   },
   methods: {
     searchDesignId () {
-      consle.log("查询设计知识")
+      this.searchInfo = this.designInfo
+      alert("查询成功")
     },
     updateDesign () {
-      console.log("更新设计知识")
+      alert("知识更新成功")
     }
   }
 }
