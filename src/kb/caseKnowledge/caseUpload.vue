@@ -3,7 +3,7 @@
       <el-row class="caseCss">
         <!--        案例名称应该是一个输入-->
         <el-col :span="3" offset="3">
-          <p >案例ID：</p>
+          <p >案例编号：</p>
         </el-col>
         <el-col :span="12">
           <el-input placeholder="请输入内容" v-model="caseInfo.caseNumber" autosize="true" type="textarea">
@@ -27,7 +27,7 @@
           <p>案例大类：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.caseBelongto" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.belongtoCase" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -131,6 +131,7 @@ export default {
   },
   methods: {
     updateCase () {
+      // let that = this
       let info = {}
       info["case"] = this.caseInfo
       axios.post("http://localhost:9001/case/addCase", info, {
@@ -141,8 +142,9 @@ export default {
       }).then(function (response) {
         if (response.data.code === 200) {
           alert("案例上传成功")
+          // this.caseInfo = ""
         } else {
-          alert("案例上传异常，请检查填写信息完整")
+          alert(response.data.message + "请修改格式继续上传")
         }
       })
     },

@@ -10,39 +10,52 @@
       <el-col :span="3">
         <el-button size="medium" type="success" @click="updateDesign">更新设计知识</el-button>
       </el-col>
+      <el-col :span="3">
+        <el-button size="medium" type="warning" @click="deleteDesign">删除设计知识</el-button>
+      </el-col>
     </el-row>
     <el-row class="caseIdCss">
       <el-col :span="6" :offset="3">
-        <p>设计知识编号：</p>
+        <p>设计规范 ID：</p>
       </el-col>
       <el-col :span="3">
-        <p>{{designInfo.designId}}</p>
+        <p>{{designInfo.id}}</p>
       </el-col>
     </el-row>
     <div style="margin: 10px 0;"></div>
-    <el-row class="caseCss">
-      <el-col :span="3" offset="3">
-        <p >设计知识来源1：</p>
+    <el-row class="caseIdCss">
+      <el-col :span="3" :offset="3">
+        <p>设计规范编号：</p>
       </el-col>
       <el-col :span="12">
-        <el-input placeholder="请输入内容" v-model="designInfo.designBelongto1" autosize="true" type="textarea">
+        <el-input placeholder="请输入内容" v-model="designInfo.knowledgenumber" autosize="true" type="textarea">
         </el-input>
       </el-col>
     </el-row>
     <div style="margin: 10px 0;"></div>
     <el-row class="caseCss">
       <el-col :span="3" offset="3">
-        <p>设计知识来源2：</p>
+        <p >设计规范来源大类：</p>
       </el-col>
       <el-col :span="12">
-        <el-input placeholder="请输入内容" v-model="designInfo.designBelongto2" autosize="true" type="textarea">
+        <el-input placeholder="请输入内容" v-model="designInfo.belongtoknowledge1" autosize="true" type="textarea">
         </el-input>
       </el-col>
     </el-row>
     <div style="margin: 10px 0;"></div>
     <el-row class="caseCss">
       <el-col :span="3" offset="3">
-        <p>内容：</p>
+        <p>设计规范来源小类：</p>
+      </el-col>
+      <el-col :span="12">
+        <el-input placeholder="请输入内容" v-model="designInfo.belongtoknowledge2" autosize="true" type="textarea">
+        </el-input>
+      </el-col>
+    </el-row>
+    <div style="margin: 10px 0;"></div>
+    <el-row class="caseCss">
+      <el-col :span="3" offset="3">
+        <p>设计规范内容：</p>
       </el-col>
       <el-col :span="12">
         <el-input placeholder="请输入内容" v-model="designInfo.content" autosize="true" type="textarea">
@@ -62,6 +75,7 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   name: "designManage",
   data () {
@@ -77,22 +91,77 @@ export default {
         attachment: ""
       },
       designInfo: {
-        designId: "",
-        designBelongto1: "",
-        designBelongto2: "",
+        id: "",
+        knowledgenumber: "",
+        belongtoknowledge1: "",
+        belongtoknowledge2: "",
         content: "",
-        attachment: ""
+        attachment: "",
+        keywords: ""
       },
       inputDesignId: ""
     }
   },
   methods: {
     searchDesignId () {
-      this.searchInfo = this.designInfo
-      alert("查询成功")
+      var that = this
+      let info = {}
+      info["id"] = this.inputDesignId
+      axios.post("http://localhost:9001/design/searchKnowledgeByID", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("设计规范查询成功")
+          that.designInfo = response.data.data.designInfo
+        } else {
+          alert(response.data.message)
+        }
+      })
+      // this.searchInfo = this.designInfo
     },
     updateDesign () {
-      alert("知识更新成功")
+      var that = this
+      let info = {}
+      info["knowledge"] = this.designInfo
+      axios.post("http://localhost:9001/design/updateKnowledge", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("设计规范更新成功")
+          that.inputDesignId = ""
+          that.designInfo = ""
+        } else {
+          alert("设计规范更新异常，请检查填写信息完整")
+          that.inputDesignId = ""
+          that.designInfo = ""
+        }
+      })
+    },
+    deleteDesign () {
+      let info = {}
+      info["knowledge"] = this.designInfo
+      axios.post("http://localhost:9001/design/deleteKnowledge", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("设计规范删除成功")
+          that.inputDesignId = ""
+          that.designInfo = ""
+        } else {
+          alert("设计规范删除异常，知识库未包含该知识")
+          that.inputDesignId = ""
+          that.designInfo = ""
+        }
+      })
     }
   }
 }

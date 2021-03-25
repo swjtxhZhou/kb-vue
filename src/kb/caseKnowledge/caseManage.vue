@@ -4,7 +4,7 @@
     <div>
       <el-row :gutter="20">
         <el-col :span="6" :offset="3">
-          <el-input v-model="caseId" placeholder="请输入案例编号"></el-input>
+          <el-input v-model="inputCaseId" placeholder="请输入案例 ID"></el-input>
         </el-col>
         <el-col :span="3">
           <el-button size="medium" type="primary" @click="searchCaseId">查询案例</el-button>
@@ -18,20 +18,29 @@
       </el-row>
       <el-row class="caseIdCss">
         <el-col :span="6" :offset="3">
-          <p>案例编号：</p>
+          <p>案例 ID：</p>
         </el-col>
         <el-col :span="3">
-          <p>{{caseInfo.caseId}}</p>
+          <p>{{caseInfo.id}}</p>
         </el-col>
       </el-row>
       <div style="margin: 10px 0;"></div>
       <el-row class="caseCss">
-<!--        案例名称应该是一个输入-->
+        <el-col :span="3" offset="3">
+          <p >案例编号：</p>
+        </el-col>
+        <el-col :span="12">
+          <el-input placeholder="请输入内容" v-model="caseInfo.casenumber" autosize="true" type="textarea">
+          </el-input>
+        </el-col>
+      </el-row>
+      <div style="margin: 10px 0;"></div>
+      <el-row class="caseCss">
         <el-col :span="3" offset="3">
           <p >案例名称：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.caseName" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.casename" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -41,7 +50,7 @@
           <p>案例大类：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.caseBelongto" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.belongtocase" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -51,7 +60,7 @@
           <p>问题描述：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.problemDescription" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.problemdescription" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -61,7 +70,7 @@
           <p>解决方案：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.problemSolution" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.problemsolution" autosize="true" type="textarea">
         </el-input>
         </el-col>
       </el-row>
@@ -71,7 +80,7 @@
           <p>风险提示：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.riskWarning" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.riskwarning" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -95,6 +104,8 @@
 </template>
 
 <script>
+import axios from "axios"
+
 export default {
   name: "caseManage",
   data () {
@@ -110,27 +121,78 @@ export default {
         attachment2: ""
       },
       caseInfo: {
-        caseId: "",
-        caseName: "",
-        caseBelongto: "",
-        problemDescription: "",
-        problemSolution: "",
-        riskWarning: "",
-        attachment1: "",
-        attachment2: ""
-      }
+        id: "",
+        casenumber: "",
+        casename: "",
+        belongtocase: "",
+        problemdescription: "",
+        problemsolution: "",
+        riskwarning: "",
+        caseattachment: ""
+      },
+      inputCaseId: ""
     }
   },
   methods: {
     searchCaseId () {
-      this.caseInfo = this.searchInfo
-      alert("查询成功")
+      var that = this
+      var info = {}
+      info["id"] = this.inputCaseId
+      axios.post("http://localhost:9001/case/searchCaseByID", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("案例查询成功")
+          that.caseInfo = response.data.data.caseInfo
+        } else {
+          alert(response.data.message)
+        }
+      })
     },
     updateCase () {
-      alert("更新成功")
+      let that = this
+      let info = {}
+      info["case"] = this.caseInfo
+      axios.post("http://localhost:9001/case/updateCase", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("案例更新成功")
+          that.inputCaseId = ""
+          that.caseInfo = ""
+        } else {
+          alert("案例更新异常，请检查填写信息完整")
+          that.inputCaseId = ""
+          that.caseInfo = ""
+        }
+      })
     },
     deleteCase () {
-      alert("删除成功")
+      let that = this
+      let info = {}
+      info["case"] = this.caseInfo
+      axios.post("http://localhost:9001/case/deleteCase", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("案例删除成功")
+          that.inputCaseId = ""
+          that.caseInfo = ""
+        } else {
+          alert("案例删除异常，知识库未包含该知识")
+          that.inputCaseId = ""
+          that.caseInfo = ""
+        }
+      })
     }
   }
 }
