@@ -71,15 +71,15 @@ export default {
   data () {
     return {
       checked: false,
-      input: "信号",
+      input: "",
       localData: "",
       designList: [{
         id: "",
-        knowledgeNumber: "2.1.1",
-        belongtoKnowledge1: "术语和符号",
-        belongtoKnowledge2: "术语",
-        content: "直向进路  route through turnout by straight track 无道岔或虽有道岔但均开通直向位置的列车进路或闭塞分区。",
-        attachment: "./static/images/管理员头像.jpg"
+        knowledgeNumber: "",
+        belongtoKnowledge1: "",
+        belongtoKnowledge2: "",
+        content: "",
+        attachment: ""
       }]
     }
   },

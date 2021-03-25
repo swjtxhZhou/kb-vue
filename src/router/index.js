@@ -22,6 +22,7 @@ const designSearch = () => import("@/kb/designKnowledge/designSearch")
 const designUpload = () => import("@/kb/designKnowledge/designUpload")
 const designDataAnalysis = () => import("@/kb/designKnowledge/dataAnalysis")
 const userManage = () => import("@/kb/BaseTable")
+const analysisResult = () => import("@/kb/designKnowledge/analysisResult")
 
 /**
  * 重写路由的push方法
@@ -47,14 +48,14 @@ let defaultRouter = [
   },
   {
     path: "/index",
-    iconCls: "fa fa-dashboard", // 图标样式class
+    iconCls: "el-icon-s-home", // 图标样式class
     name: routeName.home,
     component: Layout,
     alone: true,
     children: [
       {
         path: "/index",
-        iconCls: "fa fa-dashboard", // 图标样式class
+        iconCls: "el-icon-s-home", // 图标样式class
         name: "主页",
         component: HomeMain,
         children: []
@@ -138,12 +139,21 @@ let addRouter = [
         name: routeName.designDataAnalysis,
         component: designDataAnalysis,
         children: []
+      },
+      {
+        // 审核结果分析报告
+        path: "/designKnowledge/analysisResult",
+        iconCls: "el-icon-user-solid",
+        name: routeName.analysisResult,
+        component: analysisResult,
+        hidden: true,
+        children: []
       }
     ]
   },
   {
     path: "/",
-    iconCls: "fa fa-universal-access", // 图标样式class
+    iconCls: "el-icon-s-custom", // 图标样式class
     name: routeName.permissions, // 权限管理
     component: Layout,
     children: [

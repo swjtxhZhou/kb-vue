@@ -21,22 +21,25 @@
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-form label-position="left" inline class="demo-table-expand">
-                <el-form-item label="案例 ID:">
+                <el-form-item label="案例 ID:" class="dark">
+                  <span>{{props.row.id}}</span>
+                </el-form-item>
+                <el-form-item label="案例编号:" class="dark">
                   <span>{{ props.row.caseNumber }}</span>
                 </el-form-item>
-                <el-form-item label="案例名称:">
+                <el-form-item label="案例名称:" class="dark">
                   <span>{{ props.row.caseName }}</span>
                 </el-form-item>
-                <el-form-item label="案例类型:">
+                <el-form-item label="案例类型:" class="dark">
                   <span>{{ props.row.belongtoCase }}</span>
                 </el-form-item>
-                <el-form-item label="问题描述:">
+                <el-form-item label="问题描述:" class="dark">
                   <span>{{ props.row.problemDescription }}</span>
                 </el-form-item>
-                <el-form-item label="解决方案:">
+                <el-form-item label="解决方案:" class="dark">
                   <span>{{ props.row.problemSolution }}</span>
                 </el-form-item>
-                <el-form-item label="风险提示:">
+                <el-form-item label="风险提示:" class="dark">
                   <span>{{ props.row.riskWarning }}</span>
                 </el-form-item>
                 <el-form-item label="附件:">
@@ -83,14 +86,13 @@ export default {
       localData: "",
       caseList: [{
         id: "",
-        caseNumber: "1",
-        caseName: "侵限绝缘设计错误",
-        belongtoCase: "审图案例",
-        problemDescription: "2015年3月份某站审图，发现D1053处绝缘节设计错误。设计图中D1053座标距信号楼766，" +
-          "而1057#道岔警冲标座标为740，D1053绝缘节应为侵限绝缘。同时D1053按左侧设计，将侵入限界。显然存在设计错误。",
-        problemSolution: "D1053绝缘节按侵限绝缘设计，同时D1053改右侧设置。",
-        riskWarning: "审图工作需要对照设计规范，掌握标准。不能停留在表面，要深入计算设计中参数是否正确，要逐项参数进行比对和确认。警冲标座标容易出错，要学会计算。",
-        attachment: "./static/案例图片/1_1.jpg"
+        caseNumber: "",
+        caseName: "",
+        belongtoCase: "",
+        problemDescription: "",
+        problemSolution: "",
+        riskWarning: "",
+        attachment: ""
       }]
     }
   },
@@ -128,12 +130,16 @@ export default {
 </script>
 
 <style scoped>
+  .dark {
+    color: #021014;
+    /*font-size: 10px;*/
+  }
   .demo-table-expand {
     font-size: 0;
   }
   .demo-table-expand label {
     width: 200px;
-    color: #99a9bf;
+    color: #555e6c;
   }
   .demo-table-expand .el-form-item {
     margin-right: 0;

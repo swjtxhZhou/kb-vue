@@ -8,9 +8,10 @@
                     class="handle-del mr10"
                     @click="delAllSelection"
                 >批量删除</el-button>
-                <el-select v-model="query.address" placeholder="地址" class="handle-select mr10">
-                    <el-option key="1" label="广东省" value="广东省"></el-option>
-                    <el-option key="2" label="湖南省" value="湖南省"></el-option>
+                <el-select v-model="query.address" placeholder="状态" class="handle-select mr10">
+                    <el-option key="1" label="超级管理员" value="超级管理员"></el-option>
+                    <el-option key="2" label="用户" value="用户"></el-option>
+                    <el-option key="3" label="被禁用的用户" value="被禁用的用户"></el-option>
                 </el-select>
                 <el-input v-model="query.name" placeholder="用户名" class="handle-input mr10"></el-input>
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
@@ -39,7 +40,7 @@
                 <el-table-column label="状态" align="center">
                     <template slot-scope="scope">
                         <el-tag
-                            :type="scope.row.state==='成功'?'success':(scope.row.state==='失败'?'danger':'')"
+                            :type="scope.row.state==='超级管理员'?'success':(scope.row.state==='用户被禁用'?'danger':'info')"
                         >{{scope.row.state}}</el-tag>
                     </template>
                 </el-table-column>
@@ -92,7 +93,7 @@
 </template>
 
 <script>
-import { fetchData } from "../kb/index"
+// import { fetchData } from "../kb/index"
 export default {
   name: "basetable",
   data () {
@@ -108,7 +109,7 @@ export default {
         "name": "张三",
         "money": 123,
         "address": "1234567890",
-        "state": "成功",
+        "state": "超级管理员",
         "date": "2020-11-1",
         "thumb": "./static/images/管理员头像.jpg"
       },
@@ -117,7 +118,7 @@ export default {
         "name": "李四",
         "money": 456,
         "address": "1234567890",
-        "state": "成功",
+        "state": "超级管理员",
         "date": "2020-10-11",
         "thumb": "./static/images/管理员头像.jpg"
       },
@@ -126,7 +127,7 @@ export default {
         "name": "王五",
         "money": 789,
         "address": "1234567890",
-        "state": "失败",
+        "state": "用户",
         "date": "2020-11-11",
         "thumb": "./static/images/管理员头像.jpg"
       },
@@ -135,14 +136,14 @@ export default {
         "name": "赵六",
         "money": 1011,
         "address": "1234567890",
-        "state": "成功",
+        "state": "用户被禁用",
         "date": "2020-10-20",
         "thumb": "./static/images/管理员头像.jpg"
       }],
       multipleSelection: [],
       delList: [],
       editVisible: false,
-      pageTotal: 0,
+      pageTotal: 4,
       form: {},
       idx: -1,
       id: -1

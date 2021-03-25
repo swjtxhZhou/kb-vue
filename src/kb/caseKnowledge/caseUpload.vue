@@ -6,7 +6,7 @@
           <p >案例ID：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.caseId" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.caseNumber" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -96,19 +96,29 @@
 </template>
 
 <script>
+import axios from "axios"
 export default {
   name: "caseUpload",
   data () {
     return {
       caseInfo: {
-        caseId: "1",
+        caseNumber: "",
+        caseName: "",
+        belongtoCase: "",
+        problemDescription: "",
+        problemSolution: "",
+        riskWarning: "",
+        attachment: ""
+      },
+      staticCaseInfo: {
+        caseNumber: "1",
         caseName: "侵限绝缘设计错误",
-        caseBelongto: "审图案例",
+        belongtoCase: "审图案例",
         problemDescription: "2015年3月份某站审图，发现D1053处绝缘节设计错误。设计图中D1053座标距信号楼766，" +
           "而1057#道岔警冲标座标为740，D1053绝缘节应为侵限绝缘。同时D1053按左侧设计，将侵入限界。显然存在设计错误。",
         problemSolution: "D1053绝缘节按侵限绝缘设计，同时D1053改右侧设置。",
         riskWarning: "审图工作需要对照设计规范，掌握标准。不能停留在表面，要深入计算设计中参数是否正确，要逐项参数进行比对和确认。警冲标座标容易出错，要学会计算。",
-        attachment: "./static/案例图片/1_1.jpg"
+        attachment: "../static/案例图片/1_1.jpg"
       },
       fileList: [{
         name: "",
@@ -121,7 +131,20 @@ export default {
   },
   methods: {
     updateCase () {
-      alert("案例上传成功")
+      let info = {}
+      info["case"] = this.caseInfo
+      axios.post("http://localhost:9001/case/addCase", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          alert("案例上传成功")
+        } else {
+          alert("案例上传异常，请检查填写信息完整")
+        }
+      })
     },
     handleRemove (file, fileList) {
       console.log(file, fileList)
