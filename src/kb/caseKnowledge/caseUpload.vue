@@ -142,7 +142,6 @@ export default {
       }).then(function (response) {
         if (response.data.code === 200) {
           alert("案例上传成功")
-          // this.caseInfo = ""
         } else {
           alert(response.data.message + "请修改格式继续上传")
         }
