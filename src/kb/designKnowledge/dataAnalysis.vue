@@ -99,8 +99,9 @@
           <el-button type="primary" @click.prevent="reason()" >开始推理</el-button>
         </el-col>
         <el-col :span="3" class="download">
-          <router-link to="/designKnowledge/analysisResult"
-                       type="primary">查看分析结果</router-link>
+<!--          <router-link to="/designKnowledge/analysisResult"-->
+<!--                       type="primary">查看分析结果</router-link>-->
+          <el-link type="primary" @click="toResult()">查看分析结果</el-link>
         </el-col>
       </el-row>
     </div>
@@ -109,143 +110,167 @@
 
 <script>
 
+import axios from "axios"
+
 export default {
   name: "dataAnalysis",
   data () {
     return {
-      tableData: [{
-        id: "1",
-        stationName: "书院站",
-        lineType: "上行",
-        signalName: "S",
-        signalMileage: "K243+688",
-        signalType: "进站信号机",
-        turnoutType: "对向道岔",
-        turnoutMileage: "K243+492",
-        warningMieage: "",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K243+688"
-      }, {
-        id: "2",
-        stationName: "书院站",
-        lineType: "下行",
-        signalName: "X",
-        signalMileage: "K241+979",
-        signalType: "进站信号机",
-        turnoutType: "顺向道岔",
-        turnoutMileage: "",
-        warningMileage: "K242+144",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K241+979"
-      }, {
-        id: "3",
-        stationName: "书院站",
-        lineType: "上行",
-        signalName: "SⅡ",
-        signalMileage: "K242+389",
-        signalType: "出站信号机",
-        turnoutType: "顺向道岔",
-        turnoutMileage: "",
-        warningMileage: "K252+384",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K242+389"
-      }, {
-        id: "4",
-        stationName: "书院站",
-        lineType: "上行",
-        signalName: "SⅠ ",
-        signalMileage: "K242+352",
-        signalType: "出站信号机",
-        turnoutType: "顺向道岔",
-        turnoutMileage: "",
-        warningMileage: "K252+347",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K242+352"
-      }, {
-        id: "5",
-        stationName: "书院站",
-        lineType: "下行",
-        signalName: "XⅠ ",
-        signalMileage: "K243+232",
-        signalType: "出站信号机",
-        turnoutType: "顺向道岔",
-        turnoutMileage: "",
-        warningMileage: "K253+237",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K243+232"
-      }, {
-        id: "6",
-        stationName: "书院站",
-        lineType: "下行",
-        signalName: "XⅡ",
-        signalMileage: "K243+269",
-        signalType: "出站信号机",
-        turnoutType: "顺向道岔",
-        turnoutMileage: "",
-        warningMileage: "K253+274",
-        locateBoundary: "",
-        signalOrientate: "单置",
-        insulationMileage: "K243+269"
-      }, {
-        id: "7",
-        stationName: "书院站",
-        lineType: "上行",
-        signalName: "2518",
-        signalMileage: "K251+875",
-        signalType: "通过信号机",
-        turnoutType: "",
-        turnoutMileage: "",
-        warningMileage: "",
-        locateBoundary: "是",
-        signalOrientate: "单置",
-        insulationMileage: "K251+875"
-      }, {
-        id: "8",
-        stationName: "书院站",
-        lineType: "上行",
-        signalName: "2450",
-        signalMileage: "K244+922",
-        signalType: "通过信号机",
-        turnoutType: "",
-        turnoutMileage: "",
-        warningMileage: "",
-        locateBoundary: "是",
-        signalOrientate: "单置",
-        insulationMileage: "K244+922"
-      }, {
-        id: "9",
-        stationName: "书院站",
-        lineType: "下行",
-        signalName: "2377",
-        signalMileage: "K237+735",
-        signalType: "通过信号机",
-        turnoutType: "",
-        turnoutMileage: "",
-        warningMileage: "",
-        locateBoundary: "是",
-        signalOrientate: "单置",
-        insulationMileage: "K237+735"
-      }, {
-        id: "10",
-        stationName: "书院站",
-        lineType: "下行",
-        signalName: "2499",
-        signalMileage: "K249+987",
-        signalType: "通过信号机",
-        turnoutType: "",
-        turnoutMileage: "",
-        warningMileage: "",
-        locateBoundary: "是",
-        signalOrientate: "单置",
-        insulationMileage: "K249+987"
-      }],
+      tableData: [
+        {
+          id: "1",
+          stationName: "书院站",
+          lineType: "上行",
+          signalName: "S",
+          signalMileage: "K243+688",
+          signalType: "进站信号机",
+          turnoutType: "对向道岔",
+          turnoutMileage: "K243+492",
+          warningMieage: "",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K243+688"
+        }, {
+          id: "2",
+          stationName: "书院站",
+          lineType: "下行",
+          signalName: "X",
+          signalMileage: "K241+979",
+          signalType: "进站信号机",
+          turnoutType: "顺向道岔",
+          turnoutMileage: "",
+          warningMileage: "K242+144",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K241+979"
+        }, {
+          id: "3",
+          stationName: "书院站",
+          lineType: "上行",
+          signalName: "SⅡ",
+          signalMileage: "K242+389",
+          signalType: "出站信号机",
+          turnoutType: "顺向道岔",
+          turnoutMileage: "",
+          warningMileage: "K252+384",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K242+389"
+        }, {
+          id: "4",
+          stationName: "书院站",
+          lineType: "上行",
+          signalName: "SⅠ ",
+          signalMileage: "K242+352",
+          signalType: "出站信号机",
+          turnoutType: "顺向道岔",
+          turnoutMileage: "",
+          warningMileage: "K252+347",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K242+352"
+        }, {
+          id: "5",
+          stationName: "书院站",
+          lineType: "下行",
+          signalName: "XⅠ ",
+          signalMileage: "K243+232",
+          signalType: "出站信号机",
+          turnoutType: "顺向道岔",
+          turnoutMileage: "",
+          warningMileage: "K253+237",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K243+232"
+        }, {
+          id: "6",
+          stationName: "书院站",
+          lineType: "下行",
+          signalName: "XⅡ",
+          signalMileage: "K243+269",
+          signalType: "出站信号机",
+          turnoutType: "顺向道岔",
+          turnoutMileage: "",
+          warningMileage: "K253+274",
+          locateBoundary: "",
+          signalLocate: "单置",
+          insulationMileage: "K243+269"
+        }, {
+          id: "7",
+          stationName: "书院站",
+          lineType: "上行",
+          signalName: "2518",
+          signalMileage: "K251+875",
+          signalType: "通过信号机",
+          turnoutType: "",
+          turnoutMileage: "",
+          warningMileage: "",
+          locateBoundary: "是",
+          signalLocate: "单置",
+          insulationMileage: "K251+875"
+        }, {
+          id: "8",
+          stationName: "书院站",
+          lineType: "上行",
+          signalName: "2450",
+          signalMileage: "K244+922",
+          signalType: "通过信号机",
+          turnoutType: "",
+          turnoutMileage: "",
+          warningMileage: "",
+          locateBoundary: "是",
+          signalLocate: "单置",
+          insulationMileage: "K244+922"
+        }, {
+          id: "9",
+          stationName: "书院站",
+          lineType: "下行",
+          signalName: "2377",
+          signalMileage: "K237+735",
+          signalType: "通过信号机",
+          turnoutType: "",
+          turnoutMileage: "",
+          warningMileage: "",
+          locateBoundary: "是",
+          signalLocate: "单置",
+          insulationMileage: "K237+735"
+        }, {
+          id: "10",
+          stationName: "书院站",
+          lineType: "下行",
+          signalName: "2499",
+          signalMileage: "K249+987",
+          signalType: "通过信号机",
+          turnoutType: "",
+          turnoutMileage: "",
+          warningMileage: "",
+          locateBoundary: "是",
+          signalLocate: "单置",
+          insulationMileage: "K249+987"
+        }],
       search: "",
-      selectlistRow: []
+      selectlistRow: [],
+      resultData: [
+        {
+          id: "",
+          stationName: "",
+          lineType: "",
+          signalName: "",
+          signalMileage: "",
+          signalType: "",
+          turnoutType: "",
+          turnoutMileage: "",
+          warningMileage: "",
+          locateBoundary: "",
+          signalLocate: "",
+          insulationMileage: "",
+          inferName: "",
+          inferSignalMileage: "",
+          inferWarningMileage: "",
+          inferInsulationMileage: "",
+          inferBoundary: ""
+        }
+      ]
     }
   },
   methods: {
@@ -298,7 +323,33 @@ export default {
     },
     // 推理按钮
     reason () {
-      alert("推理完成，请查看分析报告")
+      let that = this
+      let info = {}
+      info["signalPointList"] = this.tableData
+      axios.post("http://localhost:9001/design//dataAnalysis", info, {
+        headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        },
+        timeout: 30000
+      }).then(function (response) {
+        if (response.data.code === 200) {
+          that.resultData = response.data.data.designList
+          alert("推理完成，请查看分析报告")
+          alert(that.resultData)
+        } else {
+          alert(response.data.message)
+        }
+      })
+    },
+    toResult () {
+      let that = this
+      // let result = that.resultData
+      this.$router.push({
+        path: "/designKnowledge/analysisResult",
+        query: {
+          result: that.resultData
+        }
+      })
     }
   }
 }
