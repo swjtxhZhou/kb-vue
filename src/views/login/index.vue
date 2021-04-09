@@ -75,8 +75,8 @@ export default {
     return {
       smdl: true,
       loginForm: {
-        username: "admin",
-        password: "admin"
+        username: "",
+        password: ""
       }
     }
   },
@@ -121,7 +121,7 @@ export default {
       const h = this.$createElement
       this.$notify({
         title: "账号密码",
-        message: h("i", {style: "color: teal"}, "账号密码可以随意填写，为了测试效果填写的账号将会被存储为临时假 token"),
+        message: h("i", {style: "color: teal"}, "此账号密码为初始密码，登录后请修改个人信息"),
         duration: 6000
       })
     }

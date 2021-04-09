@@ -120,7 +120,8 @@ export default {
         line-height: 50px;
         text-align: center;
         font-size: 16px;
-        color: #5e6d82;
+        color: #ffffff;
+        //color: #5e6d82;
       }
     }
     .el-menu-vertical:not(.el-menu--collapse) {

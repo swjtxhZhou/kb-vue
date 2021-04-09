@@ -103,7 +103,7 @@
 
 <script>
 import LineEcharts from "../../components/ECharts/lineEcharts"
-import Maintable from "../table/maintable"
+// import Maintable from "../table/maintable"
 export default {
   name: "mainIndex",
   data () {
@@ -202,7 +202,7 @@ export default {
       }
     }
   },
-  components: {Maintable, LineEcharts},
+  components: {LineEcharts},
   mounted () {
     this.selfAdaption()
   },
