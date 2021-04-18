@@ -69,18 +69,36 @@
         </el-col>
         <el-col :span="6">
           <el-upload
-            class="upload-demo"
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :before-remove="beforeRemove"
-            multiple
-            :limit="3"
-            :on-exceed="handleExceed"
-            :file-list="fileList">
-            <el-button size="small" type="primary" >点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
+            class="avatar-uploader"
+            ref="upload"
+            :auto-upload="false"
+            :multiple="false"
+            action="/iconupload"
+            :show-file-list="false"
+            :on-change="imgSaveToUrl"
+         >
+            <el-image
+              style="width: 400px; height: 200px"
+              v-if="model.icon"
+              :src="model.icon"
+              :fit="scale-down"></el-image>
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
+<!--          <el-upload-->
+<!--            class="upload-demo"-->
+<!--            action="/upload"-->
+<!--            :on-preview="handlePreview"-->
+<!--            :on-remove="handleRemove"-->
+<!--            :before-remove="beforeRemove"-->
+<!--            on-change="saveToLocal"-->
+<!--            :limit="1"-->
+<!--            :on-exceed="handleExceed"-->
+<!--            :file-list="fileList"-->
+<!--            auto-upload="false"-->
+<!--            >-->
+<!--            <el-button size="small" type="primary" >点击上传</el-button>-->
+<!--            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>-->
+<!--          </el-upload>-->
 <!--          <div v-for="(item,index) in fileList" :name="item.name" :url="item.url" :index="index">-->
 <!--            {{name}}{{url}}-->
 <!--          </div>-->
@@ -124,9 +142,10 @@ export default {
         name: "",
         url: ""
       }],
-      name: "",
-      url: "",
-      index: ""
+      localFile: {},
+      model: {
+        icon: ""
+      }
     }
   },
   methods: {
@@ -134,6 +153,7 @@ export default {
       // let that = this
       let info = {}
       info["case"] = this.caseInfo
+      info["file"] = this.localFile
       axios.post("http://localhost:9001/case/addCase", info, {
         headers: {
           "Content-Type": "text/plain; charset=UTF-8"
@@ -147,17 +167,35 @@ export default {
         }
       })
     },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+    // handleRemove (file, fileList) {
+    //   console.log(file, fileList)
+    // },
+    // handlePreview (file) {
+    //   console.log(file)
+    // },
+    // handleExceed (files, fileList) {
+    //   this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    // },
+    // beforeRemove (file, fileList) {
+    //   return this.$confirm(`确定移除 ${file.name}？`)
+    // },
+    imgSaveToUrl (event) { // 也可以用file
+      // this.localFile = event.raw // 或者 this.localFile=file.raw
+
+      // 转换操作可以不放到这个函数里面，
+      // 因为这个函数会被多次触发，上传时触发，上传成功也触发
+      // let reader = new FileReader()
+      // reader.readAsDataURL(this.localFile)// 这里也可以直接写参数event.raw
+
+      // 转换成功后的操作，reader.result即为转换后的DataURL ，
+      // 它不需要自己定义，你可以console.log(reader.result)看一下
+      // reader.onload = () => {
+      //   console.log(reader.result)
+      // }
+      /* 另外一种本地预览方法 */
+      let URL = window.URL || window.webkitURL
+      this.localFile = URL.createObjectURL(event.raw)
+      this.model.icon = URL.createObjectURL(event.raw)
     }
   }
 }
