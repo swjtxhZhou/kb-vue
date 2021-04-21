@@ -68,40 +68,43 @@
           <p>附件</p>
         </el-col>
         <el-col :span="6">
-          <el-upload
-            class="avatar-uploader"
-            ref="upload"
-            :auto-upload="false"
-            :multiple="false"
-            action="/iconupload"
-            :show-file-list="false"
-            :on-change="imgSaveToUrl"
-         >
-            <el-image
-              style="width: 400px; height: 200px"
-              v-if="model.icon"
-              :src="model.icon"
-              :fit="scale-down"></el-image>
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-<!--          <el-upload-->
-<!--            class="upload-demo"-->
-<!--            action="/upload"-->
-<!--            :on-preview="handlePreview"-->
-<!--            :on-remove="handleRemove"-->
-<!--            :before-remove="beforeRemove"-->
-<!--            on-change="saveToLocal"-->
-<!--            :limit="1"-->
-<!--            :on-exceed="handleExceed"-->
-<!--            :file-list="fileList"-->
-<!--            auto-upload="false"-->
-<!--            >-->
-<!--            <el-button size="small" type="primary" >点击上传</el-button>-->
-<!--            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>-->
-<!--          </el-upload>-->
-<!--          <div v-for="(item,index) in fileList" :name="item.name" :url="item.url" :index="index">-->
-<!--            {{name}}{{url}}-->
-<!--          </div>-->
+            <el-form-item prop="image" label="图片附件上传">
+              <el-upload
+                ref="uploadImage"
+                :action="uploadAction"
+                :beforeUpload="beforeUploadPicture"
+                :on-change="imageChange"
+                list-type="picture-card"
+                name="files"
+                :limit="3"
+                multiple
+                :auto-upload="false"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemovePicture">
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+            </el-form-item>
+            <el-form-item prop="image" label="文件附件上传">
+              <el-upload
+                ref="uploadFile"
+                class="upload-demo"
+                name="files"
+                :on-change="fileChange"
+                :action="uploadAction"
+                :on-preview="handlePreviewFile"
+                :on-remove="handleRemoveFile"
+                :before-remove="beforeRemoveFile"
+                multiple
+                :auto-upload="false"
+                :limit="3"
+                :on-exceed="handleExceedFile"
+                :file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+              </el-upload>
+            </el-form-item>
         </el-col>
       </el-row>
       <div style="margin: 30px 0;"></div>
@@ -145,7 +148,18 @@ export default {
       localFile: {},
       model: {
         icon: ""
-      }
+      },
+      selectedCategorySpe: this.selectedCategory,
+      serviceForm: {
+        title: "",
+        desc: "",
+        priority: "",
+        occurDate: ""
+      },
+      images: {},
+      files: {},
+      dialogImageUrl: "",
+      dialogVisible: false
     }
   },
   methods: {
@@ -196,6 +210,46 @@ export default {
       let URL = window.URL || window.webkitURL
       this.localFile = URL.createObjectURL(event.raw)
       this.model.icon = URL.createObjectURL(event.raw)
+    },
+    beforeUploadPicture (file) {
+      const isImage = file.type == "image/png" || file.type == "image/jpg" || file.type == "image/jpeg" || file.type == "image/bmp" || file.type == "image/gif" || file.type == "image/webp"
+      const isLt2M = file.size < 1024 * 1024 * 2
+      if (!isImage) {
+        this.$message.error("上传只能是png,jpg,jpeg,bmp,gif,webp格式!")
+      }
+      if (!isLt2M) {
+        this.$message.error("上传图片大小不能超过 2MB!")
+      }
+      return isImage && isLt2M
+    },
+    handlePictureCardPreview (file) {
+      this.dialogImageUrl = file.url
+      this.dialogVisible = true
+    },
+    handleRemovePicture (file, fileList) {
+      console.log(file, fileList)
+    },
+    imageChange (file, fileList, name) {
+      console.log(file, fileList)
+      this.imageList = fileList
+      this.images["images"] = fileList
+    },
+    handleRemoveFile (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreviewFile (file) {
+      console.log(file)
+    },
+    handleExceedFile (files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemoveFile (file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    fileChange (file, fileList) {
+      console.log(file, fileList)
+      this.fileList = fileList
+      this.files["files"] = fileList
     }
   }
 }
