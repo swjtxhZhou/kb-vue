@@ -30,7 +30,7 @@
           <p >案例编号：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.casenumber" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.caseNumber" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -40,7 +40,7 @@
           <p >案例名称：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.casename" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.caseName" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -50,7 +50,7 @@
           <p>案例大类：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.belongtocase" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.belongtoCase" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -60,7 +60,7 @@
           <p>问题描述：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.problemdescription" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.problemDescription" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -70,7 +70,7 @@
           <p>解决方案：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.problemsolution" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.problemSolution" autosize="true" type="textarea">
         </el-input>
         </el-col>
       </el-row>
@@ -80,7 +80,7 @@
           <p>风险提示：</p>
         </el-col>
         <el-col :span="12">
-          <el-input placeholder="请输入内容" v-model="caseInfo.riskwarning" autosize="true" type="textarea">
+          <el-input placeholder="请输入内容" v-model="caseInfo.riskWarning" autosize="true" type="textarea">
           </el-input>
         </el-col>
       </el-row>
@@ -92,12 +92,11 @@
           </div>
         </el-col>
         <el-col>
-          <el-image
-            :src="caseInfo.attachment1"
-            :fit="contain"></el-image>
-          <el-image
-            :src="caseInfo.attachment2"
-            :fit="contain"></el-image>
+          <div >
+            <el-image class="attachmentLocate"
+              :src=caseInfo.attachment
+              :fit="scale-down"></el-image>
+          </div>
         </el-col>
       </el-row>
     </div>
@@ -122,13 +121,13 @@ export default {
       },
       caseInfo: {
         id: "",
-        casenumber: "",
-        casename: "",
-        belongtocase: "",
-        problemdescription: "",
-        problemsolution: "",
-        riskwarning: "",
-        caseattachment: ""
+        caseNumber: "",
+        caseName: "",
+        belongtoCase: "",
+        problemDescription: "",
+        problemSolution: "",
+        riskWarning: "",
+        attachment: ""
       },
       inputCaseId: ""
     }
@@ -214,6 +213,9 @@ export default {
   font-size: 15px;
   margin-left: 20px;
   margin-top: 20px;
+}
+.attachmentLocate{
+  margin-left: 50px;
 }
 /*.caseAttachment {*/
 /*  */

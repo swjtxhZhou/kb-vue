@@ -47,8 +47,8 @@
                   <span>
 <!--                    <img :src="props.row.attachment"/>-->
                     <el-image
-                      :src="props.row.attachment"
-                      :fit="contain"></el-image>
+                      :src=props.row.attachment
+                      :fit="cover"></el-image>
                   </span>
                 </el-form-item>
               </el-form>
@@ -93,7 +93,17 @@ export default {
         problemSolution: "",
         riskWarning: "",
         attachment: ""
-      }]
+      }],
+      caseInfo: {
+        id: "1",
+        caseNumber: "1",
+        caseName: "1",
+        belongtoCase: "1",
+        problemDescription: "1",
+        problemSolution: "1",
+        riskWarning: "1",
+        attachment: "../static/案例图片/1_1.jpg"
+      }
     }
   },
   methods: {

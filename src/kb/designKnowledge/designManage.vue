@@ -67,7 +67,7 @@
       <el-col :span="3" offset="3"><p class="caseCss">附件：</p>
       </el-col>
       <el-image>
-        :src="designInfo.attachment"
+        :src=designInfo.attachment
         :fit="contain">
       </el-image>
     </el-row>

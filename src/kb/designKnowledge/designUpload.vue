@@ -71,16 +71,18 @@
       <el-col :span="6">
         <el-upload
           class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
+          :action="uploadUrl()"
+          :on-change="handleChange"
+          :file-list="fileList"
+          name="file"
+          :auto-upload="true"
+          :data="upData"
+          :on-error="uploadFalse"
+          :on-success="uploadSuccess"
+          :before-upload="beforeUpload"
+          :limit="1">
           <el-button size="small" type="primary">点击上传</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
         <!--          <div v-for="(item,index) in fileList" :name="item.name" :url="item.url" :index="index">-->
         <!--            {{name}}{{url}}-->
@@ -118,13 +120,15 @@ export default {
         content: "直向进路  route through turnout by straight track 无道岔或虽有道岔但均开通直向位置的列车进路或闭塞分区。",
         attachment: "./static/images/管理员头像.jpg"
       },
-      fileList: [{
-        name: "",
-        url: ""
-      }],
-      name: "",
-      url: "",
-      index: ""
+      fileList: [],
+      files: []
+    }
+  },
+  computed: {
+    // 这里定义上传文件时携带的参数，即表单数据
+    upData: function () {
+      const info = { "designNumber": this.designInfo.knowledgeNumber }
+      return info
     }
   },
   methods: {
@@ -144,17 +148,40 @@ export default {
         }
       })
     },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
+    uploadSuccess (response, file, fileList) {
+      if (response.data.code === 200) {
+        alert(response.data.message)
+      } else {
+        alert(response.data.message)
+      }
     },
-    handlePreview (file) {
-      console.log(file)
+    uploadFalse (response, file, fileList) {
+      alert("案例信息上传失败，请重试")
     },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    beforeUpload (file) {
+      // 上传前对文件的大小和类型的判断
+      //   this.form.fileName = file.name
+      const extension1 = file.name.split(".")[1] === "jpg"
+      const extension2 = file.name.split(".")[1] === "gif"
+      const extension3 = file.name.split(".")[1] === "png"
+      const extension4 = file.name.split(".")[1] === "jpeg"
+      if (!extension1 && !extension2 && !extension3 && !extension4) {
+        this.$message({
+          message: "上传文件只能是 jpg、jpeg、gif、png 格式!",
+          type: "error"
+        })
+      }
+      return extension1 || extension2 || extension3 || extension4
     },
-    beforeRemove (file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+    handleChange (file, fileList) {
+      this.fileList = fileList.slice(-3)
+    },
+    getFile (item) {
+      // console.log(item.file)
+      this.files.push(item.file)
+    },
+    uploadUrl () {
+      return "http://localhost:9001/design/designPicUpload"
     }
   }
 }
