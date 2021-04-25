@@ -13,6 +13,7 @@
             <el-button size="medium" type="primary" @click="searchDesign">查询</el-button>
           </el-col>
         </el-row>
+        <el-divider></el-divider>
         <!--    检索结果展示-->
         <el-row>
           <div>
