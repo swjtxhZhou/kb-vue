@@ -1,5 +1,17 @@
 <template>
   <div>
+    <el-row gutter="20">
+      <el-col>
+        <el-steps :active="active" finish-status="success">
+          <el-step title="请选择审核类型"></el-step>
+          <el-step title="填写数据"></el-step>
+          <el-step title="查看审核结果"></el-step>
+        </el-steps>
+      </el-col>
+    </el-row>
+    <el-row>
+      <span></span>
+    </el-row>
     <el-table
       :data="resultList"
       border
@@ -109,6 +121,7 @@ export default {
   name: "analysisResult",
   data () {
     return {
+      active: 3,
       tableData: [
         {
           id: "1",

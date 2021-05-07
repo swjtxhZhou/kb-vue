@@ -20,9 +20,10 @@ const caseUpload = () => import("@/kb/caseKnowledge/caseUploadNewPage")
 const designManage = () => import("@/kb/designKnowledge/designManageNewPage")
 const designSearch = () => import("@/kb/designKnowledge/designSearch")
 const designUpload = () => import("@/kb/designKnowledge/designUploadNewPage")
-const designDataAnalysis = () => import("@/kb/designKnowledge/dataAnalysis")
+const signalDataInput = () => import("@/kb/designKnowledge/dataAnalysis/SignalDataInput")
 const userManage = () => import("@/kb/BaseTable")
-const analysisResult = () => import("@/kb/designKnowledge/analysisResult")
+const signalAnalysisResult = () => import("@/kb/designKnowledge/dataAnalysis/SignalAnalysisResult")
+const dataAnalysisSelect = () => import("@/kb/designKnowledge/selectDataType")
 
 /**
  * 重写路由的push方法
@@ -133,19 +134,28 @@ let addRouter = [
         children: []
       },
       {
-        // 设计知识辅助审核
-        path: "/designKowledge/dataAnalysis",
+        // 设计知识辅助审核选择页面
+        path: "/designKowledge/dataAnalysisSelect",
         iconCls: "el-icon-user-solid",
         name: routeName.designDataAnalysis,
-        component: designDataAnalysis,
+        component: dataAnalysisSelect,
         children: []
       },
       {
-        // 审核结果分析报告
-        path: "/designKnowledge/analysisResult",
+        // 信号机审核数据填写
+        path: "/designKowledge/SignalDataInput",
         iconCls: "el-icon-user-solid",
-        name: routeName.analysisResult,
-        component: analysisResult,
+        name: routeName.signalDataInput,
+        hidden: true,
+        component: signalDataInput,
+        children: []
+      },
+      {
+        // 信号机审核结果分析报告
+        path: "/designKnowledge/SignalAnalysisResult",
+        iconCls: "el-icon-user-solid",
+        name: routeName.SignalAnalysisResult,
+        component: signalAnalysisResult,
         hidden: true,
         children: []
       }

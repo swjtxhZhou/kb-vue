@@ -70,6 +70,7 @@
   </div>
 </template>
 <script>
+import axios from "axios"
 export default {
   data () {
     return {
@@ -91,29 +92,29 @@ export default {
         })
         return false
       } else {
-        // 真实请求参考
-        // this.$request.fetchLogin({
-        //   username: that.loginForm.username,
-        //   password: that.loginForm.password
-        // }).then(res => {
-        //   that.$restBack(res.data, () => {
-        //     that.$store.dispatch("setToken", res.data.data.access_token).then(res => {
-        //       that.$router.push({path: "/"})
-        //     })
-        //   }, "登录成功")
-        // }).catch((err) => {
-        //   console.log(err)
-        // })
-
-        // 将 username 设置为 token 存储在 store，仅为测试效果，实际存储 token 以后台返回为准
-        that.$store.dispatch("setToken", that.loginForm.username).then(() => {
-          that.$router.push({path: "/"})
-        }).catch(res => {
-          that.$message({
-            showClose: true,
-            message: res,
-            type: "error"
-          })
+        let info = new FormData()
+        info.append("account", this.loginForm.username)
+        info.append("password", this.loginForm.password)
+        axios.post("http://localhost:9001/manage/login", info, {headers: {
+          "Content-Type": "text/plain; charset=UTF-8"
+        }}).then(response => {
+          if (response.data.code === 200) {
+            if (response.data.data === 1) {
+              that.$store.dispatch("setToken", that.loginForm.username).then(() => {
+                that.$router.push({path: "/"})
+              }).catch(res => {
+                that.$message({
+                  showClose: true,
+                  message: res,
+                  type: "error"
+                })
+              })
+            } else {
+              alert("账号或者密码错误，请重新输入")
+            }
+          } else {
+            alert("服务器出错，请联系管理员")
+          }
         })
       }
     },

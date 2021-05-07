@@ -1,12 +1,24 @@
 <template>
   <div>
+    <el-row gutter="20">
+      <el-col>
+        <el-steps :active="active" finish-status="success">
+          <el-step title="请选择审核类型"></el-step>
+          <el-step title="填写数据"></el-step>
+          <el-step title="查看审核结果"></el-step>
+        </el-steps>
+      </el-col>
+    </el-row>
+    <el-row :gutter="5">
+      <el-divider></el-divider>
+    </el-row>
     <div class="button">
-      <el-row :gutter="10">
-        <el-col :span="2">
-          <el-button type="primary" @click.prevent="addRow()" plain>增加行</el-button>
+      <el-row>
+        <el-col :span="1.8" >
+          <el-button  type="primary" @click.prevent="addRow()" >增加行</el-button>
         </el-col>
-        <el-col :span="2">
-          <el-button type="danger" @click.prevent="delData()" plain>删除行</el-button>
+        <el-col :span="1.8" >
+          <el-button  type="danger" @click.prevent="delData()" >删除行</el-button>
         </el-col>
       </el-row>
     </div>
@@ -16,29 +28,6 @@
         border="true"
         @selection-change='selectRow'
         style="width: 100%">
-        <!--    <el-table-column label="序号" prop="id"></el-table-column>-->
-        <!--    <el-table-column label="车站名称" prop="stationName"></el-table-column>-->
-        <!--    <el-table-column label="行别" prop="lineType"></el-table-column>-->
-        <!--    <el-table-column label="信号机名称" prop="signalName"></el-table-column>-->
-        <!--    <el-table-column label="信号机里程" prop="signalMileage"></el-table-column>-->
-        <!--    <el-table-column label="信号机类型" prop="signalType"></el-table-column>-->
-        <!--    <el-table-column label="道岔类型" prop="turnoutType"></el-table-column>-->
-        <!--    <el-table-column label="道岔里程" prop="turnoutMileage"></el-table-column>-->
-        <!--    <el-table-column label="警冲标里程" prop="warningMileage"></el-table-column>-->
-        <!--    <el-table-column label="位于区间分界" prop="locateBoundary"></el-table-column>-->
-        <!--&lt;!&ndash;    <el-table-column label="信号机置法" prop="signalOrientate"></el-table-column>&ndash;&gt;-->
-        <!--    <el-table-column label="绝缘节里程" prop="insulationMileage"></el-table-column>-->
-        <!--    <el-table-column align="right">-->
-        <!--      <template slot-scope="scope">-->
-        <!--        <el-button-->
-        <!--          size="mini"-->
-        <!--          @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
-        <!--        <el-button-->
-        <!--          size="mini"-->
-        <!--          type="danger"-->
-        <!--          @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
-        <!--      </template>-->
-        <!--    </el-table-column>-->
         <el-table-column type="selection" width="45" align="center"></el-table-column>
         <el-table-column label="序号"  type="index" width="50" align="center"></el-table-column>
         <el-table-column  label="车站名称" align="center">
@@ -116,6 +105,7 @@ export default {
   name: "dataAnalysis",
   data () {
     return {
+      active: 1,
       tableData: [
         {
           id: "1",
@@ -345,7 +335,7 @@ export default {
       let that = this
       // let result = that.resultData
       this.$router.push({
-        path: "/designKnowledge/analysisResult",
+        path: "/designKnowledge/SignalAnalysisResult",
         query: {
           result: that.resultData
         }
@@ -362,7 +352,7 @@ export default {
 }
 .button {
   margin-bottom: 10px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 .download {
   font-size: 15px;

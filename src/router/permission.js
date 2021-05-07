@@ -14,8 +14,8 @@ router.beforeEach((to, from, next) => {
         !(async function getAddRouters () {
           // 省略 axios 请求代码 通过 token 向后台请求用户权限等信息，这里用假数据赋值
           await store.dispatch("getInfo", {
-            role: "superAdmin",
-            permissions: "超级管理员"
+            role: "admin",
+            permissions: "管理员"
           })
           await store.dispatch("newRoutes", store.getters.info.role)
           let newAddRouters = store.getters.addRouters
